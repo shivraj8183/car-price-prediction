@@ -21,56 +21,83 @@ def get_base64(file):
 
 img = get_base64("car_pic1.avif")
 
+# ---------------- STYLING ----------------
 st.markdown(f"""
 <style>
+
+/* -------- BACKGROUND -------- */
 .stApp {{
     background-image: url("data:image/avif;base64,{img}");
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
 }}
 
+/* REMOVE OVERLAY */
 .stApp::before {{
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(255,255,255,0.85);
+    display: none;
 }}
 
-section[data-testid="stAppViewContainer"] {{
-    position: relative;
-    z-index: 1;
-}}
-
+/* -------- TITLE -------- */
 .title {{
     text-align: center;
-    font-size: 38px;
+    font-size: 42px;
     font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 12px rgba(0,0,0,0.8);
+    margin-bottom: 25px;
 }}
 
+/* -------- GLASS CARD -------- */
 .card {{
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
+    background: rgba(255, 255, 255, 0.15);
+    padding: 30px;
+    border-radius: 18px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0px 10px 35px rgba(0,0,0,0.4);
 }}
 
-.result-box {{
-    background: #111;
-    color: white;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    font-size: 22px;
-    margin-top: 20px;
+/* -------- INPUT LABELS -------- */
+label {{
+    color: white !important;
+    font-weight: 500;
 }}
 
+/* -------- BUTTON -------- */
 .stButton>button {{
-    background: #111;
+    background: linear-gradient(135deg, #000, #444);
     color: white;
-    border-radius: 10px;
-    height: 45px;
-    width: 100%;
+    border-radius: 12px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
 }}
+
+.stButton>button:hover {{
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #222, #666);
+}}
+
+/* -------- RESULT -------- */
+.result-box {{
+    background: rgba(0, 0, 0, 0.75);
+    color: #00ffcc;
+    padding: 22px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 20px;
+    backdrop-filter: blur(8px);
+}}
+
+/* -------- FOOTER -------- */
+footer {{
+    visibility: hidden;
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -103,7 +130,7 @@ predict_btn = st.button("Predict Price")
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ---------------- HTML REPORT FUNCTION ----------------
+# ---------------- HTML REPORT ----------------
 def generate_html(company, name, year, kms, fuel, price):
     return f"""
     <html>
@@ -121,7 +148,7 @@ def generate_html(company, name, year, kms, fuel, price):
     </html>
     """
 
-# ---------------- SAFE PREDICTION ----------------
+# ---------------- SAFE PREDICT ----------------
 def safe_predict(df):
     try:
         return pipe.predict(df)
@@ -142,7 +169,7 @@ if predict_btn:
 
     if result is not None:
         try:
-            price = int(result.item())   # ✅ FIXED HERE
+            price = int(result.item())   # ✅ FIX
 
             st.markdown(f"""
             <div class="result-box">
@@ -150,7 +177,6 @@ if predict_btn:
             </div>
             """, unsafe_allow_html=True)
 
-            # Generate HTML
             html = generate_html(company, name, year, kms_driven, fuel_type, price)
 
             st.download_button(
@@ -167,5 +193,5 @@ if predict_btn:
 # ---------------- FOOTER ----------------
 st.markdown("""
 <hr>
-<p style='text-align:center;'>Made with ❤️ using Streamlit</p>
+<p style='text-align:center; color:white;'>Made with ❤️ using Streamlit</p>
 """, unsafe_allow_html=True)
