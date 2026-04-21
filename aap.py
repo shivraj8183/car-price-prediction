@@ -102,7 +102,7 @@ footer {{
 """, unsafe_allow_html=True)
 
 # ---------------- HEADER ----------------
-st.markdown('<div class="title">🚗 Car Price Predictor</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">Car Price Predictor</div>', unsafe_allow_html=True)
 
 # ---------------- FORM ----------------
 st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -193,5 +193,5 @@ if predict_btn:
 # ---------------- FOOTER ----------------
 st.markdown("""
 <hr>
-<p style='text-align:center; color:white;'>Made with ❤️ using Streamlit</p>
+<p style='text-align:center; color:white;'>Thank You❤️</p>
 """, unsafe_allow_html=True)
